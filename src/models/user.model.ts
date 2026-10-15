@@ -8,9 +8,6 @@ import {
     Unique,
     AllowNull,
     Default,
-    DeletedAt,
-    CreatedAt,
-    UpdatedAt,
 } from 'sequelize-typescript';
 
 export enum UserRole {
