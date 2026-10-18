@@ -17,9 +17,9 @@ export class RegisterDto {
     @IsString()
     firstName: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
-    lastName: string;
+    lastName?: string;
 
     @IsNotEmpty()
     @IsString()
@@ -38,7 +38,7 @@ export class RegisterDto {
 
     @IsOptional()
     @IsDateString()
-    birthOfDate?: string;
+    dateOfBirth?: string;
 
     @IsOptional()
     @IsString()

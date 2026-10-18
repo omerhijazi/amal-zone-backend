@@ -1,9 +1,10 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { User } from '../../models/user.model.js';
 import { RegisterDto } from './dto/register.dto.js';
+import { LoginDto } from './dto/login.dto.js';
 
 @Injectable()
 export class AuthService {
@@ -29,7 +30,7 @@ export class AuthService {
             username: registerDto.username,
             email: registerDto.email,
             password: hashedPassword,
-            birthOfDate: registerDto.birthOfDate,
+            dateOfBirth: registerDto.dateOfBirth,
             phoneNumber: registerDto.phoneNumber,
             avatar: registerDto.avatar,
         });
@@ -46,7 +47,28 @@ export class AuthService {
         };
     }
 
-    async login(loginDto: any) {
-        // to be implemented
+    async login(loginDto: LoginDto) {
+        const user = await this.userModel.findOne({
+            where: { email: loginDto.email },
+        });
+
+        if (!user) {
+            throw new UnauthorizedException('Invalid credentials');
+        }
+
+        const isPasswordValid = await bcrypt.compare(loginDto.password, user.password);
+        if (!isPasswordValid) {
+            throw new UnauthorizedException('Invalid credentials')
+        }
+
+        const payload = {
+            userId: user.id,
+            role: user.role,
+        };
+
+        return {
+            token: this.jwtService.sign(payload),
+            role: user.role,
+        };
     }
 }

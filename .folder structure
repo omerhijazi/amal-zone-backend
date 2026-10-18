@@ -1,0 +1,247 @@
+amal-zone/
+│
+├── docker-compose.yml
+├── .env.example
+├── README.md
+│
+├── backend/                          # Single Nest.js application
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── tsconfig.build.json
+│   ├── .eslintrc.js
+│   ├── .prettierrc
+│   ├── nest-cli.json
+│   ├── .sequelizerc
+│   │
+│   ├── src/
+│   │   ├── main.ts
+│   │   ├── app.module.ts
+│   │   │
+│   │   ├── config/
+│   │   │   ├── database.config.ts
+│   │   │   ├── redis.config.ts
+│   │   │   ├── elasticsearch.config.ts
+│   │   │   ├── minio.config.ts
+│   │   │   └── jwt.config.ts
+│   │   │
+│   │   ├── common/
+│   │   │   ├── guards/
+│   │   │   │   ├── jwt-auth.guard.ts
+│   │   │   │   └── roles.guard.ts
+│   │   │   ├── decorators/
+│   │   │   │   ├── roles.decorator.ts
+│   │   │   │   └── current-user.decorator.ts
+│   │   │   ├── filters/
+│   │   │   │   └── http-exception.filter.ts
+│   │   │   ├── interceptors/
+│   │   │   │   └── response.interceptor.ts
+│   │   │   ├── pipes/
+│   │   │   │   └── validation.pipe.ts
+│   │   │   └── types/
+│   │   │       └── jwt-payload.type.ts
+│   │   │
+│   │   ├── database/
+│   │   │   ├── database.module.ts
+│   │   │   ├── sequelize-config.js
+│   │   │   ├── migrations/
+│   │   │   │   ├── 20240101000000-create-users.js
+│   │   │   │   ├── 20240102000000-create-sellers.js
+│   │   │   │   ├── 20240103000000-create-addresses.js
+│   │   │   │   ├── 20240104000000-create-categories.js
+│   │   │   │   ├── 20240105000000-create-sub-categories.js
+│   │   │   │   ├── 20240106000000-create-products.js
+│   │   │   │   ├── 20240107000000-create-product-attributes.js
+│   │   │   │   ├── 20240108000000-create-products-skus.js
+│   │   │   │   ├── 20240109000000-create-wishlist.js
+│   │   │   │   ├── 20240110000000-create-cart.js
+│   │   │   │   ├── 20240111000000-create-cart-items.js
+│   │   │   │   ├── 20240112000000-create-order-details.js
+│   │   │   │   ├── 20240113000000-create-order-items.js
+│   │   │   │   ├── 20240114000000-create-payment-details.js
+│   │   │   │   ├── 20240115000000-create-seller-payouts.js
+│   │   │   │   └── 20240116000000-create-seller-transfers.js
+│   │   │   └── seeders/
+│   │   │       ├── 20240101000000-admin.js
+│   │   │       └── 20240102000000-categories.js
+│   │   │
+│   │   ├── models/
+│   │   │   ├── user.model.ts
+│   │   │   ├── seller.model.ts
+│   │   │   ├── address.model.ts
+│   │   │   ├── category.model.ts
+│   │   │   ├── sub-category.model.ts
+│   │   │   ├── product.model.ts
+│   │   │   ├── product-attribute.model.ts
+│   │   │   ├── product-sku.model.ts
+│   │   │   ├── cart.model.ts
+│   │   │   ├── cart-item.model.ts
+│   │   │   ├── order-details.model.ts
+│   │   │   ├── order-item.model.ts
+│   │   │   ├── payment-details.model.ts
+│   │   │   ├── wishlist.model.ts
+│   │   │   ├── seller-payout.model.ts
+│   │   │   └── seller-transfer.model.ts
+│   │   │
+│   │   ├── modules/
+│   │   │   ├── auth/
+│   │   │   │   ├── auth.module.ts
+│   │   │   │   ├── auth.service.ts
+│   │   │   │   ├── auth.controller.ts
+│   │   │   │   ├── strategies/
+│   │   │   │   │   └── jwt.strategy.ts
+│   │   │   │   └── dto/
+│   │   │   │       ├── register.dto.ts
+│   │   │   │       └── login.dto.ts
+│   │   │   │
+│   │   │   ├── customer/
+│   │   │   │   ├── customer.module.ts
+│   │   │   │   ├── products/
+│   │   │   │   │   ├── customer-products.controller.ts
+│   │   │   │   │   ├── customer-products.service.ts
+│   │   │   │   │   └── dto/
+│   │   │   │   │       └── product-query.dto.ts
+│   │   │   │   ├── cart/
+│   │   │   │   │   ├── cart.controller.ts
+│   │   │   │   │   ├── cart.service.ts
+│   │   │   │   │   └── dto/
+│   │   │   │   │       └── add-to-cart.dto.ts
+│   │   │   │   ├── orders/
+│   │   │   │   │   ├── customer-orders.controller.ts
+│   │   │   │   │   ├── customer-orders.service.ts
+│   │   │   │   │   └── dto/
+│   │   │   │   │       └── checkout.dto.ts
+│   │   │   │   ├── reviews/
+│   │   │   │   │   ├── reviews.controller.ts
+│   │   │   │   │   ├── reviews.service.ts
+│   │   │   │   │   └── dto/
+│   │   │   │   │       └── create-review.dto.ts
+│   │   │   │   └── wishlist/
+│   │   │   │       ├── wishlist.controller.ts
+│   │   │   │       ├── wishlist.service.ts
+│   │   │   │       └── dto/
+│   │   │   │           └── wishlist.dto.ts
+│   │   │   │
+│   │   │   ├── partner/
+│   │   │   │   ├── partner.module.ts
+│   │   │   │   ├── products/
+│   │   │   │   │   ├── partner-products.controller.ts
+│   │   │   │   │   ├── partner-products.service.ts
+│   │   │   │   │   └── dto/
+│   │   │   │   │       ├── create-product.dto.ts
+│   │   │   │   │       └── update-stock.dto.ts
+│   │   │   │   ├── orders/
+│   │   │   │   │   ├── partner-orders.controller.ts
+│   │   │   │   │   └── partner-orders.service.ts
+│   │   │   │   └── analytics/
+│   │   │   │       ├── partner-analytics.controller.ts
+│   │   │   │       └── partner-analytics.service.ts
+│   │   │   │
+│   │   │   ├── admin/
+│   │   │   │   ├── admin.module.ts
+│   │   │   │   ├── users/
+│   │   │   │   │   ├── admin-users.controller.ts
+│   │   │   │   │   ├── admin-users.service.ts
+│   │   │   │   │   └── dto/
+│   │   │   │   │       └── change-role.dto.ts
+│   │   │   │   ├── sellers/
+│   │   │   │   │   ├── admin-sellers.controller.ts
+│   │   │   │   │   └── admin-sellers.service.ts
+│   │   │   │   ├── orders/
+│   │   │   │   │   ├── admin-orders.controller.ts
+│   │   │   │   │   └── admin-orders.service.ts
+│   │   │   │   ├── analytics/
+│   │   │   │   │   ├── admin-analytics.controller.ts
+│   │   │   │   │   └── admin-analytics.service.ts
+│   │   │   │   └── system/
+│   │   │   │       ├── system.controller.ts
+│   │   │   │       └── system.service.ts
+│   │   │   │
+│   │   │   ├── search/
+│   │   │   │   ├── search.module.ts
+│   │   │   │   ├── search.service.ts
+│   │   │   │   └── search.indexer.ts
+│   │   │   │
+│   │   │   ├── storage/
+│   │   │   │   ├── storage.module.ts
+│   │   │   │   └── storage.service.ts
+│   │   │   │
+│   │   │   ├── cache/
+│   │   │   │   ├── cache.module.ts
+│   │   │   │   └── cache.service.ts
+│   │   │   │
+│   │   │   └── mail/
+│   │   │       ├── mail.module.ts
+│   │   │       └── mail.service.ts
+│   │   │
+│   │   └── cli/
+│   │       └── reindex.command.ts
+│   │
+│   └── test/
+│       ├── auth.e2e-spec.ts
+│       ├── orders.e2e-spec.ts
+│       └── jest-e2e.json
+│
+├── frontend/
+│   ├── customer/                     # Port 3001
+│   │   ├── Dockerfile
+│   │   ├── package.json
+│   │   ├── vite.config.ts
+│   │   ├── tailwind.config.ts
+│   │   ├── index.html
+│   │   └── src/
+│   │       ├── main.tsx
+│   │       ├── App.tsx
+│   │       ├── api/
+│   │       ├── components/
+│   │       ├── pages/
+│   │       │   ├── Home.tsx
+│   │       │   ├── ProductList.tsx
+│   │       │   ├── ProductDetail.tsx
+│   │       │   ├── Cart.tsx
+│   │       │   ├── Checkout.tsx
+│   │       │   ├── Orders.tsx
+│   │       │   └── Wishlist.tsx
+│   │       ├── store/
+│   │       └── types/
+│   │
+│   ├── partner/                      # Port 3002
+│   │   ├── Dockerfile
+│   │   ├── package.json
+│   │   ├── vite.config.ts
+│   │   ├── tailwind.config.ts
+│   │   ├── index.html
+│   │   └── src/
+│   │       ├── main.tsx
+│   │       ├── App.tsx
+│   │       ├── api/
+│   │       ├── components/
+│   │       ├── pages/
+│   │       │   ├── Dashboard.tsx
+│   │       │   ├── Products.tsx
+│   │       │   ├── AddProduct.tsx
+│   │       │   ├── Inventory.tsx
+│   │       │   └── Orders.tsx
+│   │       ├── store/
+│   │       └── types/
+│   │
+│   └── admin/                        # Port 3003
+│       ├── Dockerfile
+│       ├── package.json
+│       ├── vite.config.ts
+│       ├── tailwind.config.ts
+│       ├── index.html
+│       └── src/
+│           ├── main.tsx
+│           ├── App.tsx
+│           ├── api/
+│           ├── components/
+│           ├── pages/
+│           │   ├── Dashboard.tsx
+│           │   ├── Users.tsx
+│           │   ├── Sellers.tsx
+│           │   ├── Orders.tsx
+│           │   ├── Analytics.tsx
+│           │   └── System.tsx
+│           ├── store/
+│           └── types/

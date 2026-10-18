@@ -31,8 +31,9 @@ export class User extends Model {
     @Column(DataType.STRING)
     avatar: string | null;
 
+    @AllowNull(false)
     @Column({ type: DataType.STRING })
-    firstName: string | null;
+    firstName: string;
 
     @Column({ type: DataType.STRING })
     lastName: string | null;
@@ -47,8 +48,9 @@ export class User extends Model {
     @Column(DataType.STRING)
     email: string;
 
+    @AllowNull(false)
     @Column(DataType.STRING)
-    password: string | null;
+    password: string;
 
     @Column({ type: DataType.DATEONLY })
     dateOfBirth: string | null;
