@@ -25,6 +25,6 @@ import { User } from '../../models/user.model.js';
     ],
     controllers: [AuthController],
     providers: [AuthService, JwtStrategy],
-    exports: [AuthService, JwtModule],
+    exports: [AuthService, JwtModule, PassportModule],
 })
 export class AuthModule { }

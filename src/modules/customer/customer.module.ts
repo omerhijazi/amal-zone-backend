@@ -16,12 +16,15 @@ import { User } from '../../models/user.model.js';
 
 // controllers
 import { CustomerProductsController } from './products/customer-products.controller.js';
+import { CartController } from './cart/cart.controller.js';
 
 // services
 import { CustomerProductsService } from './products/customer-products.service.js';
+import { CartService } from './cart/cart.service.js';
 
 @Module({
-    imports: [SequelizeModule.forFeature([
+    imports: [
+        SequelizeModule.forFeature([
         Product,
         ProductSku,
         ProductAttribute,
@@ -35,8 +38,7 @@ import { CustomerProductsService } from './products/customer-products.service.js
         User,
     ]),
     ],
-    controllers: [CustomerProductsController],
-    providers: [CustomerProductsService],
+    controllers: [CustomerProductsController, CartController],
+    providers: [CustomerProductsService, CartService],
 })
-
 export class CustomerModule { }

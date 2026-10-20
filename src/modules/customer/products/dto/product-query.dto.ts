@@ -1,5 +1,3 @@
-// src/modules/customer/products/dto/product-query.dto.ts
-
 import { IsOptional, IsInt, IsString, IsBoolean, Min, IsNumber } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 

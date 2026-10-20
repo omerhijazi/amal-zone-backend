@@ -16,19 +16,18 @@ export class CustomerProductsService {
 
     async findAll(query: ProductQueryDto) {
         const {
-            page,
-            limit,
+            page = 1,
+            limit = 10,
             search,
             categoryId,
             minPrice,
             maxPrice,
             inStock,
-            sortBy,
+            sortBy = 'newest',
         } = query;
 
-        // const offset = (page - 1) * limit;
+        const offset = (page - 1) * limit;
 
-        // build where clause for product
         const productWhere: any = {
             status: 'published',
         };
@@ -77,7 +76,7 @@ export class CustomerProductsService {
             ],
             order,
             limit,
-            // offset,
+            offset,
             distinct: true, // 👈 needed for correct count with associations
         });
 
@@ -87,7 +86,7 @@ export class CustomerProductsService {
                 total: count,
                 page,
                 limit,
-                // totalPages: Math.ceil(count / limit),
+                totalPages: Math.ceil(count / limit),
             },
         };
     }

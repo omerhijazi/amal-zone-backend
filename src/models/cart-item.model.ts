@@ -41,10 +41,10 @@ export class CartItem extends Model {
 
     @ForeignKey(() => ProductSku)
     @Column(DataType.INTEGER)
-    productsSkuId: number | null;
+    productSkuId: number | null;
 
     @BelongsTo(() => ProductSku)
-    productsSku?: ProductSku;
+    productSku?: ProductSku;
 
     @Default(1)
     @Column(DataType.INTEGER)
