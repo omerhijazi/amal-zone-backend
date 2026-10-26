@@ -15,7 +15,7 @@ import { ProductSku } from './product-sku.model.js';
 import { Seller } from './seller.model.js';
 
 @Table({
-    tableName: 'order_item',
+    tableName: 'order_items',
     paranoid: true,
     timestamps: true,
     underscored: true,
@@ -41,11 +41,11 @@ export class OrderItem extends Model {
     product?: Product;
 
     @ForeignKey(() => ProductSku)
-    @Column(DataType.INTEGER)
-    productsSkuId: number | null;
+    @Column({ type: DataType.INTEGER, field: 'product_sku_id' })
+    productSkuId: number | null;
 
     @BelongsTo(() => ProductSku)
-    productsSku?: ProductSku;
+    productSku?: ProductSku;
 
     @Column(DataType.INTEGER)
     quantity: number | null;

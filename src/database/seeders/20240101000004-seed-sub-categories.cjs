@@ -12,7 +12,7 @@ module.exports = {
           id: 10,
           parent_id: 10, // Electronics & Devices
           name: 'Smartphones & Accessories',
-          descrition: 'Latest iOS and Android devices, screen guards, and wireless chargers.',
+          description: 'Latest iOS and Android devices, screen guards, and wireless chargers.',
           created_at: now,
           updated_at: now,
           deleted_at: null,
@@ -21,7 +21,7 @@ module.exports = {
           id: 11,
           parent_id: 10, // Electronics & Devices
           name: 'Laptops & Computers',
-          descrition: 'Ultraportable notebooks, high-end workstations, and accessories.',
+          description: 'Ultraportable notebooks, high-end workstations, and accessories.',
           created_at: now,
           updated_at: now,
           deleted_at: null,
@@ -30,7 +30,7 @@ module.exports = {
           id: 12,
           parent_id: 11, // Fashion & Apparel
           name: 'Men Fashion',
-          descrition: 'Polos, casual t-shirts, jackets, chinos, and formal wear.',
+          description: 'Polos, casual t-shirts, jackets, chinos, and formal wear.',
           created_at: now,
           updated_at: now,
           deleted_at: null,
@@ -39,7 +39,7 @@ module.exports = {
           id: 13,
           parent_id: 11, // Fashion & Apparel
           name: 'Women Fashion',
-          descrition: 'Contemporary dresses, activewear, cardigans, and handbags.',
+          description: 'Contemporary dresses, activewear, cardigans, and handbags.',
           created_at: now,
           updated_at: now,
           deleted_at: null,
@@ -48,7 +48,7 @@ module.exports = {
           id: 14,
           parent_id: 12, // Home & Kitchen
           name: 'Coffee & Espresso',
-          descrition: 'Espresso machines, pour-over drippers, grinders, and beans.',
+          description: 'Espresso machines, pour-over drippers, grinders, and beans.',
           created_at: now,
           updated_at: now,
           deleted_at: null,

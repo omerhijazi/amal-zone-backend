@@ -10,7 +10,6 @@ import {
     BelongsTo,
 } from 'sequelize-typescript';
 import { OrderDetail } from './order-detail.model.js';
-import { Seller } from './seller.model.js';
 
 export enum PaymentStatus {
     PENDING = 'pending',
@@ -30,13 +29,6 @@ export class PaymentDetail extends Model {
     @AutoIncrement
     @Column(DataType.INTEGER)
     id: number;
-
-    @ForeignKey(() => Seller)
-    @Column(DataType.INTEGER)
-    sellerId: number | null;
-
-    @BelongsTo(() => Seller)
-    seller?: Seller;
 
     @ForeignKey(() => OrderDetail)
     @Column(DataType.INTEGER)

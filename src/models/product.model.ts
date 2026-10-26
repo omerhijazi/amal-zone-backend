@@ -9,9 +9,11 @@ import {
     Default,
     ForeignKey,
     BelongsTo,
+    HasMany,
 } from 'sequelize-typescript';
 import { Seller } from './seller.model.js';
 import { SubCategory } from './sub-category.model.js';
+import { ProductSku } from './product-sku.model.js';
 
 export enum ProductStatus {
     DRAFT = 'draft',
@@ -34,10 +36,10 @@ export class Product extends Model {
 
     @ForeignKey(() => Seller)
     @AllowNull(false)
-    @Column(DataType.INTEGER)
+    @Column({ type: DataType.INTEGER, field: 'seller_id' })
     sellerId: number;
 
-    @BelongsTo(() => Seller)
+    @BelongsTo(() => Seller, { foreignKey: 'seller_id', as: 'seller' })
     seller?: Seller;
 
     @AllowNull(false)
@@ -54,11 +56,14 @@ export class Product extends Model {
     cover: string | null;
 
     @ForeignKey(() => SubCategory)
-    @Column(DataType.INTEGER)
+    @Column({ type: DataType.INTEGER, field: 'category_id' })
     categoryId: number | null;
 
-    @BelongsTo(() => SubCategory)
-    category?: SubCategory;
+    @BelongsTo(() => SubCategory, { foreignKey: 'category_id', as: 'subCategory' })
+    subCategory?: SubCategory;
+
+    @HasMany(() => ProductSku, { foreignKey: 'product_id', as: 'skus' })
+    skus?: ProductSku[];
 
     @Default(ProductStatus.DRAFT)
     @Column(DataType.ENUM(...Object.values(ProductStatus)))

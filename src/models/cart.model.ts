@@ -9,11 +9,13 @@ import {
     Default,
     ForeignKey,
     BelongsTo,
+    HasMany,
 } from 'sequelize-typescript';
 import { User } from './user.model.js';
+import { CartItem } from './cart-item.model.js';
 
 @Table({
-    tableName: 'cart',
+    tableName: 'carts',
     paranoid: true,
     timestamps: true,
     underscored: true,
@@ -35,6 +37,9 @@ export class Cart extends Model {
     @Default(0)
     @Column(DataType.DECIMAL(10, 2))
     total: number;
+
+    @HasMany(() => CartItem, 'cartId')
+    items?: CartItem[];
 
     // timestaps: 
     declare createdAt: Date;

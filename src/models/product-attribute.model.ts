@@ -24,7 +24,10 @@ export class ProductAttribute extends Model {
     @Column(DataType.INTEGER)
     id: number;
 
-    @Column(DataType.ENUM(...Object.values(ProductAttributeType)))
+    @Column({
+        type: DataType.ENUM(...Object.values(ProductAttributeType)),
+        field: 'product_attribute_type',
+    })
     type: ProductAttributeType;
 
     @Column(DataType.STRING)

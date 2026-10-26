@@ -35,7 +35,7 @@ export class Seller extends Model {
     user?: User;
 
     @AllowNull(false)
-    @Column(DataType.STRING)
+    @Column({ type: DataType.STRING, field: 'business_name' })
     storeName: string;
 
     @Column(DataType.STRING)
@@ -51,7 +51,7 @@ export class Seller extends Model {
     @Column(DataType.STRING)
     bankName: string | null;
 
-    @Column(DataType.STRING)
+    @Column({ type: DataType.STRING, field: 'phone' })
     phoneNumber: string | null;
 
     @Default(5.00)

@@ -17,28 +17,30 @@ import { User } from '../../models/user.model.js';
 // controllers
 import { CustomerProductsController } from './products/customer-products.controller.js';
 import { CartController } from './cart/cart.controller.js';
+import { WishlistController } from './wishlist/wishlist.controller.js';
 
 // services
 import { CustomerProductsService } from './products/customer-products.service.js';
 import { CartService } from './cart/cart.service.js';
+import { WishlistService } from './wishlist/wishlist.service.js';
 
 @Module({
     imports: [
         SequelizeModule.forFeature([
-        Product,
-        ProductSku,
-        ProductAttribute,
-        Category,
-        SubCategory,
-        Cart,
-        CartItem,
-        OrderDetail,
-        OrderItem,
-        Wishlist,
-        User,
-    ]),
+            Product,
+            ProductSku,
+            ProductAttribute,
+            Category,
+            SubCategory,
+            Cart,
+            CartItem,
+            OrderDetail,
+            OrderItem,
+            Wishlist,
+            User,
+        ]),
     ],
-    controllers: [CustomerProductsController, CartController],
-    providers: [CustomerProductsService, CartService],
+    controllers: [CustomerProductsController, CartController, WishlistController],
+    providers: [CustomerProductsService, CartService, WishlistService],
 })
 export class CustomerModule { }

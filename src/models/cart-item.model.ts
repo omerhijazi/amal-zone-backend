@@ -10,11 +10,10 @@ import {
     BelongsTo,
 } from 'sequelize-typescript';
 import { Cart } from './cart.model.js';
-import { Product } from './product.model.js';
 import { ProductSku } from './product-sku.model.js';
 
 @Table({
-    tableName: 'cart_item',
+    tableName: 'cart_items',
     paranoid: true,
     timestamps: true,
     underscored: true,
@@ -30,14 +29,7 @@ export class CartItem extends Model {
     cartId: number | null;
 
     @BelongsTo(() => Cart)
-    cart?: Cart;
-
-    @ForeignKey(() => Product)
-    @Column(DataType.INTEGER)
-    productId: number | null;
-
-    @BelongsTo(() => Product)
-    product?: Product;
+    cart?: any | null;
 
     @ForeignKey(() => ProductSku)
     @Column(DataType.INTEGER)

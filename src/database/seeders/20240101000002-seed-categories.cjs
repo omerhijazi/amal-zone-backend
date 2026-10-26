@@ -11,7 +11,7 @@ module.exports = {
         {
           id: 10,
           name: 'Electronics & Devices',
-          describtion: 'Smartphones, laptops, smart home gear and audio accessories.',
+          description: 'Smartphones, laptops, smart home gear and audio accessories.',
           created_at: now,
           updated_at: now,
           deleted_at: null,
@@ -19,7 +19,7 @@ module.exports = {
         {
           id: 11,
           name: 'Fashion & Apparel',
-          describtion: 'Men and women trendy clothing, footwear, and designer collections.',
+          description: 'Men and women trendy clothing, footwear, and designer collections.',
           created_at: now,
           updated_at: now,
           deleted_at: null,
@@ -27,7 +27,7 @@ module.exports = {
         {
           id: 12,
           name: 'Home & Kitchen',
-          describtion: 'Cookware, appliances, coffee equipment, and modern home decor.',
+          description: 'Cookware, appliances, coffee equipment, and modern home decor.',
           created_at: now,
           updated_at: now,
           deleted_at: null,

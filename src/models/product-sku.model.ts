@@ -15,7 +15,7 @@ import { Product } from './product.model.js';
 import { ProductAttribute } from './product-attribute.model.js';
 
 @Table({
-    tableName: 'products_skus',
+    tableName: 'product_skus',
     paranoid: true,
     timestamps: true,
     underscored: true,
@@ -27,24 +27,24 @@ export class ProductSku extends Model {
     id: number;
 
     @ForeignKey(() => Product)
-    @Column(DataType.INTEGER)
+    @Column({ type: DataType.INTEGER, field: 'product_id' })
     productId: number | null;
 
-    @BelongsTo(() => Product)
-    product?: Product;
+    @BelongsTo(() => Product, { foreignKey: 'product_id', as: 'product' })
+    product?: any | null;
 
     @ForeignKey(() => ProductAttribute)
-    @Column(DataType.INTEGER)
+    @Column({ type: DataType.INTEGER, field: 'size_attribute_id' })
     sizeAttributeId: number | null;
 
-    @BelongsTo(() => ProductAttribute, 'sizeAttributeId')
+    @BelongsTo(() => ProductAttribute, { foreignKey: 'size_attribute_id', as: 'sizeAttribute' })
     sizeAttribute?: ProductAttribute;
 
     @ForeignKey(() => ProductAttribute)
-    @Column(DataType.INTEGER)
+    @Column({ type: DataType.INTEGER, field: 'color_attribute_id' })
     colorAttributeId: number | null;
 
-    @BelongsTo(() => ProductAttribute, 'colorAttributeId')
+    @BelongsTo(() => ProductAttribute, { foreignKey: 'color_attribute_id', as: 'colorAttribute' })
     colorAttribute?: ProductAttribute;
 
     @Unique
