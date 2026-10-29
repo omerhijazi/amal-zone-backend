@@ -8,8 +8,10 @@ import {
     AllowNull,
     ForeignKey,
     BelongsTo,
+    HasMany,
 } from 'sequelize-typescript';
 import { User } from './user.model.js';
+import { OrderItem } from './order-item.model.js';
 
 @Table({
     tableName: 'order_details',
@@ -36,6 +38,9 @@ export class OrderDetail extends Model {
     @AllowNull(false)
     @Column(DataType.DECIMAL(10, 2))
     total: number;
+
+    @HasMany(() => OrderItem, 'orderId')
+    orderItems?: OrderItem[];
 
     // timestaps: 
     declare createdAt: Date;

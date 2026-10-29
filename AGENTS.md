@@ -57,7 +57,16 @@ DELETE /api/customer/wishlist/products/:productId # Remove product from wishlist
 
 ---
 
-## 5. DTOs & Validation
+## 5. Orders & Checkout Standard
+
+```http
+# Checkout / Order Creation
+POST   /api/customer/orders/checkout             # Checkout selected cart items into an order (201 Created)
+```
+
+---
+
+## 6. DTOs & Validation
 
 - Every input body must have a dedicated DTO with `class-validator` rules.
 - Add `@ApiProperty` / `@ApiPropertyOptional` with realistic descriptions and examples to all DTO fields for comprehensive Swagger documentation.

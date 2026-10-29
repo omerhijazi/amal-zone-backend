@@ -31,7 +31,7 @@ export class OrderItem extends Model {
     orderId: number | null;
 
     @BelongsTo(() => OrderDetail)
-    order?: OrderDetail;
+    order?: any | null;
 
     @ForeignKey(() => Product)
     @Column(DataType.INTEGER)
