@@ -252,6 +252,11 @@ export class CustomerOrdersService {
                 },
             ],
         });
+
+        if (!orders.length) {
+            throw new BadRequestException('No orders found')
+        }
+
         return orders;
     }
 
