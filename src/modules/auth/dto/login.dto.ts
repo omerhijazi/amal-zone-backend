@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class LoginDto {
     @ApiProperty({
-        example: 'alice@amalzone.com',
+        example: 'fashion_seller@amalzone.com',
         description: 'User registered email address',
     })
     @IsNotEmpty()
