@@ -27,24 +27,24 @@ export class ProductSku extends Model {
     id: number;
 
     @ForeignKey(() => Product)
-    @Column({ type: DataType.INTEGER, field: 'product_id' })
+    @Column(DataType.INTEGER)
     productId: number | null;
 
-    @BelongsTo(() => Product, { foreignKey: 'product_id', as: 'product' })
+    @BelongsTo(() => Product, { foreignKey: 'productId', as: 'product' })
     product?: any | null;
 
     @ForeignKey(() => ProductAttribute)
-    @Column({ type: DataType.INTEGER, field: 'size_attribute_id' })
+    @Column(DataType.INTEGER)
     sizeAttributeId: number | null;
 
-    @BelongsTo(() => ProductAttribute, { foreignKey: 'size_attribute_id', as: 'sizeAttribute' })
+    @BelongsTo(() => ProductAttribute, { foreignKey: 'sizeAttributeId', as: 'sizeAttribute' })
     sizeAttribute?: ProductAttribute;
 
     @ForeignKey(() => ProductAttribute)
-    @Column({ type: DataType.INTEGER, field: 'color_attribute_id' })
+    @Column(DataType.INTEGER)
     colorAttributeId: number | null;
 
-    @BelongsTo(() => ProductAttribute, { foreignKey: 'color_attribute_id', as: 'colorAttribute' })
+    @BelongsTo(() => ProductAttribute, { foreignKey: 'colorAttributeId', as: 'colorAttribute' })
     colorAttribute?: ProductAttribute;
 
     @Unique

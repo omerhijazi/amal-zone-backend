@@ -36,10 +36,10 @@ export class Product extends Model {
 
     @ForeignKey(() => Seller)
     @AllowNull(false)
-    @Column({ type: DataType.INTEGER, field: 'seller_id' })
+    @Column(DataType.INTEGER)
     sellerId: number;
 
-    @BelongsTo(() => Seller, { foreignKey: 'seller_id', as: 'seller' })
+    @BelongsTo(() => Seller, { foreignKey: 'sellerId', as: 'seller' })
     seller?: Seller;
 
     @AllowNull(false)
@@ -56,13 +56,13 @@ export class Product extends Model {
     cover: string | null;
 
     @ForeignKey(() => SubCategory)
-    @Column({ type: DataType.INTEGER, field: 'category_id' })
+    @Column(DataType.INTEGER)
     categoryId: number | null;
 
-    @BelongsTo(() => SubCategory, { foreignKey: 'category_id', as: 'subCategory' })
+    @BelongsTo(() => SubCategory, { foreignKey: 'categoryId', as: 'subCategory' })
     subCategory?: SubCategory;
 
-    @HasMany(() => ProductSku, { foreignKey: 'product_id', as: 'skus' })
+    @HasMany(() => ProductSku, { foreignKey: 'productId', as: 'skus' })
     skus?: ProductSku[];
 
     @Default(ProductStatus.DRAFT)

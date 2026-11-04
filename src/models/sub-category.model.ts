@@ -23,10 +23,10 @@ export class SubCategory extends Model {
     id: number;
 
     @ForeignKey(() => Category)
-    @Column({ type: DataType.INTEGER, field: 'parent_id' })
+    @Column(DataType.INTEGER)
     parentId: number | null;
 
-    @BelongsTo(() => Category, { foreignKey: 'parent_id', as: 'category' })
+    @BelongsTo(() => Category, { foreignKey: 'parentId', as: 'category' })
     category?: Category;
 
     @Column(DataType.STRING)
