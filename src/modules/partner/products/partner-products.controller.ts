@@ -64,60 +64,60 @@ export class PartnerProductsController {
     }
 
     // sku methods
-    @Get(':id/skus')
+    @Get(':productId/skus')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: 'get all skus' })
     getAllSkus(
         @CurrentUser() user: JwtPayload,
-        @Param('id', ParseIntPipe) id: number,
+        @Param('productId', ParseIntPipe) productId: number,
     ) {
-        return this.productsService.getAllSkus
+        return this.productsService.getAllSkus(productId, user.userId)
     }
 
-    @Get(':id/skus/:skuId')
+    @Get(':productId/skus/:skuId')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: 'get sku by id' })
     getSkuById(
         @CurrentUser() user: JwtPayload,
-        @Param('id', ParseIntPipe) id: number,
+        @Param('productId', ParseIntPipe) productId: number,
         @Param('skuId', ParseIntPipe) skuId: number,
 
     ) {
-        return this.productsService.getSku
+        return this.productsService.getSku(productId, user.userId, skuId)
     }
 
-    @Post(':id/skus')
+    @Post(':productId/skus')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: 'add sku to a product' })
     upsertSku(
         @CurrentUser() user: JwtPayload,
-        @Param('id', ParseIntPipe) id: number,
-        @Body() body: CreateProductSkuDto
+        @Param('productId', ParseIntPipe) productId: number,
+        @Body() body: CreateProductSkuDto[]
     ) {
-        return this.productsService.upsertSkus
+        return this.productsService.upsertSkus(productId, user.userId, body)
     }
 
-    @Patch(':id/skus/:skuId')
+    @Patch(':productId/skus/:skuId')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: 'update an sku\'s price or quantity' })
     updateSku(
         @CurrentUser() user: JwtPayload,
-        @Param('id', ParseIntPipe) id: number,
+        @Param('productId', ParseIntPipe) productId: number,
         @Param('skuId', ParseIntPipe) skuId: number,
         @Body() body: UpdateProductSkuDto
     ) {
-        return this.productsService.updateSku
+        return this.productsService.updateSku(skuId, productId, user.userId, body)
     }
 
-    @Delete(':id/skus/:skuId')
+    @Delete(':productId/skus/:skuId')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: 'delete an sku' })
     deleteSku(
         @CurrentUser() user: JwtPayload,
-        @Param('id', ParseIntPipe) id: number,
+        @Param('productId', ParseIntPipe) productId: number,
         @Param('skuId', ParseIntPipe) skuId: number,
     ) {
-        return this.productsService.deleteSku
+        return this.productsService.deleteSku(productId, skuId, user.userId)
     }
 
 }

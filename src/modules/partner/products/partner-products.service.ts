@@ -1,14 +1,10 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Op, Transaction, where } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { Product } from '../../../models/product.model.js';
 import { ProductSku } from '../../../models/product-sku.model.js';
-import { ProductAttribute } from '../../../models/product-attribute.model.js';
 import { SubCategory } from '../../../models/sub-category.model.js';
-import { Category } from '../../../models/category.model.js';
 import { Seller } from '../../../models/seller.model.js';
-import { User } from '../../../models/user.model.js';
 import { CreateProductDto, UpdateProductDto, CreateProductSkuDto, UpdateProductSkuDto } from './dto/partner-product-query.dto.js';
 
 @Injectable()
@@ -17,17 +13,13 @@ export class PartnerProductsService {
         private readonly sequelize: Sequelize,
         @InjectModel(Product) private readonly productModel: typeof Product,
         @InjectModel(ProductSku) private readonly productSkuModel: typeof ProductSku,
-        @InjectModel(ProductAttribute) private readonly productAttributeModel: typeof ProductAttribute,
         @InjectModel(SubCategory) private readonly subCategoryModel: typeof SubCategory,
-        @InjectModel(Category) private readonly categoryModel: typeof Category,
         @InjectModel(Seller) private readonly sellerModel: typeof Seller,
-        @InjectModel(User) private readonly userModel: typeof User,
     ) { }
 
     async validateSeller(userId: number) {
         const seller = await this.sellerModel.findOne({
             where: { userId: userId },
-            rejectOnEmpty: true
         });
         if (!seller) {
             throw new NotFoundException(`Seller not found with user id ${userId}`);
@@ -46,7 +38,6 @@ export class PartnerProductsService {
         const product = await this.productModel.findOne({
             where: { id, sellerId: seller.id },
             include: [{ model: this.productSkuModel, as: 'skus' }],
-            rejectOnEmpty: true
         });
         if (!product) {
             throw new NotFoundException(`Product not found`);
@@ -60,7 +51,6 @@ export class PartnerProductsService {
 
         const subCategory = await this.subCategoryModel.findOne({
             where: { id: categoryId },
-            rejectOnEmpty: true
         });
         if (!subCategory) {
             throw new NotFoundException(`Sub-category with id ${categoryId} not found`);
@@ -105,7 +95,6 @@ export class PartnerProductsService {
             include: [
                 { model: this.productSkuModel, as: 'skus' }
             ],
-            rejectOnEmpty: true
         });
 
         if (!product) {
@@ -125,7 +114,6 @@ export class PartnerProductsService {
         const seller = await this.validateSeller(userId);
         const product = await this.productModel.findOne({
             where: { id, sellerId: seller.id },
-            rejectOnEmpty: true
         });
         if (!product) {
             throw new NotFoundException(`Product not found`);
@@ -138,7 +126,6 @@ export class PartnerProductsService {
         const seller = await this.validateSeller(userId);
         const product = await this.productModel.findOne({
             where: { id: productId, sellerId: seller.id },
-            rejectOnEmpty: true
         });
         if (!product) {
             throw new NotFoundException(`Product not found`);
@@ -148,15 +135,13 @@ export class PartnerProductsService {
                 productId
             },
         })
-        if (!skus) throw new NotFoundException('no skus found')
         return skus
     }
 
-    async getSku(productId: number, userId: number, skuId: number): Promise<ProductSku> {
+    async getSku(productId: number, skuId: number, userId: number): Promise<ProductSku> {
         const seller = await this.validateSeller(userId);
         const product = await this.productModel.findOne({
             where: { id: productId, sellerId: seller.id },
-            rejectOnEmpty: true
         });
         if (!product) {
             throw new NotFoundException(`Product not found`);
@@ -166,17 +151,15 @@ export class PartnerProductsService {
                 productId,
                 id: skuId
             },
-            rejectOnEmpty: true
         })
         if (!sku) throw new NotFoundException('no skus found')
         return sku
     }
 
-    async upsertSkus(productId: number, skus: CreateProductSkuDto[], userId: number): Promise<Product> {
+    async upsertSkus(productId: number, userId: number, skus: CreateProductSkuDto[]): Promise<Product> {
         const seller = await this.validateSeller(userId);
         const product = await this.productModel.findOne({
             where: { id: productId, sellerId: seller.id },
-            rejectOnEmpty: true
         });
         if (!product) {
             throw new NotFoundException(`Product not found`);
@@ -202,40 +185,47 @@ export class PartnerProductsService {
         }
     }
 
-    async updateSku(skuId: number, userId: number, updateProductSkuDto: UpdateProductSkuDto): Promise<ProductSku> {
+    async updateSku(skuId: number, productId: number, userId: number, updateProductSkuDto: UpdateProductSkuDto): Promise<ProductSku> {
         const seller = await this.validateSeller(userId)
+        const product = await this.productModel.findOne({
+            where: { id: productId, sellerId: seller.id },
+        });
+        if (!product) {
+            throw new NotFoundException(`Product not found`);
+        }
         const { quantity, price } = updateProductSkuDto
         const sku = await this.productSkuModel.findOne({
-            where: { id: skuId },
+            where: { id: skuId, productId },
             include: [{
                 model: this.productModel,
                 as: 'product',
                 required: true,
             }],
-            rejectOnEmpty: true
         })
-        if (!(sku.product.sellerId == seller.id)) {
-            throw new UnauthorizedException('unauthorized to edit this product')
+        if (!sku) {
+            throw new NotFoundException('Product SKU not found');
         }
-        if (updateProductSkuDto.price) sku.price = updateProductSkuDto.price
-        if (updateProductSkuDto.quantity) sku.quantity = updateProductSkuDto.quantity
+        if (updateProductSkuDto.price !== undefined) sku.price = updateProductSkuDto.price
+        if (updateProductSkuDto.quantity !== undefined) sku.quantity = updateProductSkuDto.quantity
         await sku.save()
         return sku
     }
 
-    async deleteSku(skuId: number, userId: number) {
+    async deleteSku(productId: number, skuId: number, userId: number) {
         const seller = await this.validateSeller(userId)
         const sku = await this.productSkuModel.findOne({
-            where: { id: skuId },
+            where: { id: skuId, productId },
             include: [{
                 model: this.productModel,
                 as: 'product',
                 required: true,
             }],
-            rejectOnEmpty: true
         })
+        if (!sku) {
+            throw new NotFoundException('Product SKU not found');
+        }
         if (!(sku.product.sellerId == seller.id)) {
-            throw new UnauthorizedException('Unauthorized to access resorce')
+            throw new ForbiddenException('Not allowed to delete this SKU')
         }
         await sku.destroy()
     }
