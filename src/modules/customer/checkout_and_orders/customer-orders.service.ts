@@ -38,9 +38,7 @@ export class CustomerOrdersService {
     ) { }
 
     async checkout(userId: number, checkoutDto: CheckoutDto) {
-        const t = await this.sequelize.transaction();
-
-        try {
+        return await this.sequelize.transaction(async (t) => {
             // ==================
             // STEP 1: fetch cart
             // ==================
@@ -214,20 +212,12 @@ export class CustomerOrdersService {
             await cart.update({ total: Math.round(newCartTotal * 100) / 100 }, { transaction: t });
 
 
-            // all good — commit
-            await t.commit();
-
             return {
                 message: 'Order placed successfully',
                 orderId: order.id,
                 total: orderTotal,
             };
-
-        } catch (error) {
-            // something went wrong — roll everything back
-            await t.rollback();
-            throw error;
-        }
+        })
     }
 
     async findAllOrders(userId: number) {

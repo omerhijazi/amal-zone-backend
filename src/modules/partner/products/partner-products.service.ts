@@ -24,6 +24,9 @@ export class PartnerProductsService {
         if (!seller) {
             throw new NotFoundException(`Seller not found with user id ${userId}`);
         }
+        if (seller.isApproved === false) {
+            throw new ForbiddenException(`Seller is not approved`);
+        }
         return seller;
     }
 
@@ -55,9 +58,7 @@ export class PartnerProductsService {
         if (!subCategory) {
             throw new NotFoundException(`Sub-category with id ${categoryId} not found`);
         }
-
-        const t = await this.sequelize.transaction();
-        try {
+        return await this.sequelize.transaction(async (t) => {
             const product = await this.productModel.create({
                 sellerId: seller.id,
                 name,
@@ -80,12 +81,11 @@ export class PartnerProductsService {
                 { transaction: t }
             );
 
-            await t.commit();
-            return await product.reload({ include: [{ model: this.productSkuModel, as: 'skus' }] });
-        } catch (error) {
-            await t.rollback();
-            throw error;
-        }
+            return await product.reload({
+                include: [{ model: this.productSkuModel, as: 'skus' }],
+                transaction: t
+            });
+        })
     }
 
     async updateProduct(id: number, updateProductDto: UpdateProductDto, userId: number): Promise<Product> {
@@ -164,8 +164,7 @@ export class PartnerProductsService {
         if (!product) {
             throw new NotFoundException(`Product not found`);
         }
-        const t = await this.sequelize.transaction();
-        try {
+        return await this.sequelize.transaction(async (t) => {
             const skusData = await this.productSkuModel.bulkCreate(
                 skus.map((sku) => ({
                     sku: sku.sku,
@@ -177,12 +176,11 @@ export class PartnerProductsService {
                 })),
                 { transaction: t }
             );
-            await t.commit();
-            return await product.reload({ include: [{ model: this.productSkuModel, as: 'skus' }] });
-        } catch (error) {
-            await t.rollback();
-            throw error;
-        }
+            return await product.reload({
+                include: [{ model: this.productSkuModel, as: 'skus' }],
+                transaction: t
+            })
+        })
     }
 
     async updateSku(skuId: number, productId: number, userId: number, updateProductSkuDto: UpdateProductSkuDto): Promise<ProductSku> {

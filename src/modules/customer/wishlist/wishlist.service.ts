@@ -3,9 +3,6 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
 import { Wishlist } from '../../../models/wishlist.model.js';
 import { Product, ProductStatus } from '../../../models/product.model.js';
-import { ProductSku } from '../../../models/product-sku.model.js';
-import { SubCategory } from '../../../models/sub-category.model.js';
-import { Category } from '../../../models/category.model.js';
 import { AddToWishlistDto } from './dto/add-to-wishlist.dto.js';
 
 @Injectable()
