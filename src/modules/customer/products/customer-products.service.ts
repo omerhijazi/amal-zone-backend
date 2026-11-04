@@ -6,7 +6,7 @@ import { ProductSku } from '../../../models/product-sku.model.js';
 import { ProductAttribute } from '../../../models/product-attribute.model.js';
 import { SubCategory } from '../../../models/sub-category.model.js';
 import { Category } from '../../../models/category.model.js';
-import { ProductQueryDto } from './dto/product-query.dto.js';
+import { CustomerProductQueryDto } from './dto/customer-product-query.dto.js';
 
 @Injectable()
 export class CustomerProductsService {
@@ -14,7 +14,7 @@ export class CustomerProductsService {
         @InjectModel(Product) private readonly productModel: typeof Product,
     ) { }
 
-    async findAll(query: ProductQueryDto) {
+    async findAll(query: CustomerProductQueryDto) {
         const {
             page = 1,
             limit = 10,
@@ -119,4 +119,4 @@ export class CustomerProductsService {
     }
 }
 
-// FIXME: add pagination it is already added but not correctly and is commented out on line 85 and offset on line 84
+// FIXME: add pagination it is already added but not correctly

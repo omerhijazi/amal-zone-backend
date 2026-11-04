@@ -2,7 +2,7 @@ import { IsOptional, IsInt, IsString, IsBoolean, Min, IsNumber } from 'class-val
 import { Transform, Type } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
-export class ProductQueryDto {
+export class CustomerProductQueryDto {
     @ApiPropertyOptional({
         example: 1,
         description: 'Page number for pagination',

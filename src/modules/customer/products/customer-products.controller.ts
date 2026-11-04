@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query, ParseIntPipe } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CustomerProductsService } from './customer-products.service.js';
-import { ProductQueryDto } from './dto/product-query.dto.js';
+import { CustomerProductQueryDto } from './dto/customer-product-query.dto.js';
 
 @ApiTags('Customer - Products')
 @Controller('api/customer/products')
@@ -10,7 +10,7 @@ export class CustomerProductsController {
 
     @Get()
     @ApiOperation({ summary: 'Get all published products with filters and pagination' })
-    findAll(@Query() query: ProductQueryDto) {
+    findAll(@Query() query: CustomerProductQueryDto) {
         return this.productsService.findAll(query);
     }
 
