@@ -156,7 +156,7 @@ export class PartnerProductsService {
         return sku
     }
 
-    async upsertSkus(productId: number, userId: number, skus: CreateProductSkuDto[]): Promise<Product> {
+    async addSkus(productId: number, userId: number, skus: CreateProductSkuDto[]): Promise<Product> {
         const seller = await this.validateSeller(userId);
         const product = await this.productModel.findOne({
             where: { id: productId, sellerId: seller.id },

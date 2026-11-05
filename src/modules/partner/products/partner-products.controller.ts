@@ -5,16 +5,19 @@ import { CurrentUser } from '../../../common/decorators/current-user.decorator.j
 import type { JwtPayload } from '../../../common/types/jwt-payload.type.js';
 import { PartnerProductsService } from './partner-products.service.js';
 import { CreateProductDto, UpdateProductDto, CreateProductSkuDto, UpdateProductSkuDto } from './dto/partner-product-query.dto.js';
+import { RolesGuard } from '../../../common/guards/roles.guard.js';
+import { Roles } from '../../../common/decorators/roles.decorator.js';
+import { UserRole } from '../../../models/user.model.js';
 
 @ApiTags('Partner - Products')
 @ApiBearerAuth()
 @Controller('api/partner/products')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.SELLER)
 export class PartnerProductsController {
     constructor(private readonly productsService: PartnerProductsService) { }
 
     @Get()
-    @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: 'Get all products' })
     getAllProducts(
         @CurrentUser() user: JwtPayload,
@@ -33,7 +36,6 @@ export class PartnerProductsController {
     }
 
     @Post()
-    @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: 'Create a new product' })
     createProduct(
         @CurrentUser() user: JwtPayload,
@@ -43,7 +45,6 @@ export class PartnerProductsController {
     }
 
     @Patch(':id')
-    @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: 'Update a product' })
     updateProduct(
         @CurrentUser() user: JwtPayload,
@@ -54,7 +55,6 @@ export class PartnerProductsController {
     }
 
     @Delete(':id')
-    @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: 'Delete a product' })
     deleteProduct(
         @CurrentUser() user: JwtPayload,
@@ -87,18 +87,16 @@ export class PartnerProductsController {
     }
 
     @Post(':productId/skus')
-    @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: 'add sku to a product' })
-    upsertSku(
+    addSkus(
         @CurrentUser() user: JwtPayload,
         @Param('productId', ParseIntPipe) productId: number,
         @Body() body: CreateProductSkuDto[]
     ) {
-        return this.productsService.upsertSkus(productId, user.userId, body)
+        return this.productsService.addSkus(productId, user.userId, body)
     }
 
     @Patch(':productId/skus/:skuId')
-    @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: 'update an sku\'s price or quantity' })
     updateSku(
         @CurrentUser() user: JwtPayload,
@@ -110,7 +108,6 @@ export class PartnerProductsController {
     }
 
     @Delete(':productId/skus/:skuId')
-    @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: 'delete an sku' })
     deleteSku(
         @CurrentUser() user: JwtPayload,
