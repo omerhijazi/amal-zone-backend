@@ -5,11 +5,15 @@ import { CheckoutDto } from './dto/checkout.dto.js';
 import { JwtAuthGuard } from '../../../common/guards/jwt-auth.guard.js';
 import { CurrentUser } from '../../../common/decorators/current-user.decorator.js';
 import type { JwtPayload } from '../../../common/types/jwt-payload.type.js';
+import { RolesGuard } from '../../../common/guards/roles.guard.js';
+import { Roles } from '../../../common/decorators/roles.decorator.js';
+import { UserRole } from '../../../models/user.model.js';
 
 @ApiTags('Customer - Orders')
 @ApiBearerAuth()
 @Controller('api/customer/orders')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.CUSTOMER)
 export class CustomerOrdersController {
     constructor(private readonly customerOrdersService: CustomerOrdersService) { }
 

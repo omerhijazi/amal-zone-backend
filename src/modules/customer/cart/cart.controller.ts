@@ -6,11 +6,15 @@ import { UpdateCartItemDto } from './dto/update-cart-item.dto.js';
 import { JwtAuthGuard } from '../../../common/guards/jwt-auth.guard.js';
 import { CurrentUser } from '../../../common/decorators/current-user.decorator.js';
 import type { JwtPayload } from '../../../common/types/jwt-payload.type.js';
+import { RolesGuard } from '../../../common/guards/roles.guard.js';
+import { Roles } from '../../../common/decorators/roles.decorator.js';
+import { UserRole } from '../../../models/user.model.js';
 
 @ApiTags('Customer - Cart')
 @ApiBearerAuth()
 @Controller('api/customer/cart')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.CUSTOMER)
 export class CartController {
     constructor(private readonly cartService: CartService) { }
 

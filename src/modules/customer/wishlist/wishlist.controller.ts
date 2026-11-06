@@ -16,11 +16,15 @@ import { AddToWishlistDto } from './dto/add-to-wishlist.dto.js';
 import { JwtAuthGuard } from '../../../common/guards/jwt-auth.guard.js';
 import { CurrentUser } from '../../../common/decorators/current-user.decorator.js';
 import type { JwtPayload } from '../../../common/types/jwt-payload.type.js';
+import { RolesGuard } from '../../../common/guards/roles.guard.js';
+import { Roles } from '../../../common/decorators/roles.decorator.js';
+import { UserRole } from '../../../models/user.model.js';
 
 @ApiTags('Customer - Wishlist')
 @ApiBearerAuth()
 @Controller('api/customer/wishlist')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.CUSTOMER)
 export class WishlistController {
     constructor(private readonly wishlistService: WishlistService) { }
 

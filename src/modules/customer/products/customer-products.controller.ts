@@ -2,7 +2,9 @@ import { Controller, Get, Param, Query, ParseIntPipe } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CustomerProductsService } from './customer-products.service.js';
 import { CustomerProductQueryDto } from './dto/customer-product-query.dto.js';
+import { Public } from '../../../common/decorators/public.decorator.js';
 
+@Public()
 @ApiTags('Customer - Products')
 @Controller('api/customer/products')
 export class CustomerProductsController {
