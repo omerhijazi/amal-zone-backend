@@ -5,7 +5,7 @@ import { Product } from '../../../models/product.model.js';
 import { ProductSku } from '../../../models/product-sku.model.js';
 import { SubCategory } from '../../../models/sub-category.model.js';
 import { Seller } from '../../../models/seller.model.js';
-import { CreateProductDto, UpdateProductDto, CreateProductSkuDto, UpdateProductSkuDto } from './dto/partner-product-query.dto.js';
+import { CreateProductDto, UpdateProductDto, AddProductSkusDto, UpdateProductSkuDto } from './dto/partner-product-query.dto.js';
 
 @Injectable()
 export class PartnerProductsService {
@@ -156,7 +156,7 @@ export class PartnerProductsService {
         return sku
     }
 
-    async addSkus(productId: number, userId: number, skus: CreateProductSkuDto[]): Promise<Product> {
+    async addSkus(productId: number, userId: number, addProductSkusDto: AddProductSkusDto): Promise<Product> {
         const seller = await this.validateSeller(userId);
         const product = await this.productModel.findOne({
             where: { id: productId, sellerId: seller.id },
@@ -165,8 +165,8 @@ export class PartnerProductsService {
             throw new NotFoundException(`Product not found`);
         }
         return await this.sequelize.transaction(async (t) => {
-            const skusData = await this.productSkuModel.bulkCreate(
-                skus.map((sku) => ({
+            await this.productSkuModel.bulkCreate(
+                addProductSkusDto.skus.map((sku) => ({
                     sku: sku.sku,
                     price: sku.price,
                     quantity: sku.quantity,
@@ -179,8 +179,8 @@ export class PartnerProductsService {
             return await product.reload({
                 include: [{ model: this.productSkuModel, as: 'skus' }],
                 transaction: t
-            })
-        })
+            });
+        });
     }
 
     async updateSku(skuId: number, productId: number, userId: number, updateProductSkuDto: UpdateProductSkuDto): Promise<ProductSku> {

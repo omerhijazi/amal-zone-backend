@@ -39,6 +39,7 @@ export class CustomerOrdersService {
 
     async checkout(userId: number, checkoutDto: CheckoutDto) {
         return await this.sequelize.transaction(async (t) => {
+            // FIXME: remove any part of the transaction that is not part of the critical path of the order operation.
             // ==================
             // STEP 1: fetch cart
             // ==================
@@ -65,6 +66,7 @@ export class CustomerOrdersService {
             // ==========================================
             const lockedItemsData = [];
 
+            // FIXME: N+1 queries
             for (const item of cart.items) {
                 // lock the SKU row — no one else can modify it until transaction ends
                 const sku = await this.productSkuModel.findOne({
@@ -242,10 +244,6 @@ export class CustomerOrdersService {
                 },
             ],
         });
-
-        if (!orders.length) {
-            throw new BadRequestException('No orders found')
-        }
 
         return orders;
     }

@@ -1,4 +1,4 @@
-import { IsOptional, IsInt, IsString, IsBoolean, Min, IsNumber, IsArray, ValidateNested } from 'class-validator';
+import { IsOptional, IsInt, IsString, IsBoolean, Min, IsNumber, IsArray, ValidateNested, ArrayNotEmpty } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 import { ApiPropertyOptional, ApiProperty } from '@nestjs/swagger';
 import { PartialType, OmitType, PickType } from '@nestjs/mapped-types';
@@ -127,4 +127,13 @@ export class UpdateProductSkuDto {
     @IsOptional()
     @Type(() => Number)
     quantity?: number;
+}
+
+export class AddProductSkusDto {
+    @ApiProperty({ type: () => [CreateProductSkuDto] })
+    @IsArray()
+    @ArrayNotEmpty()
+    @ValidateNested({ each: true })
+    @Type(() => CreateProductSkuDto)
+    skus: CreateProductSkuDto[];
 }
