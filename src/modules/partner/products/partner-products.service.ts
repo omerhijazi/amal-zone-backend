@@ -5,7 +5,7 @@ import { Product } from '../../../models/product.model.js';
 import { ProductSku } from '../../../models/product-sku.model.js';
 import { SubCategory } from '../../../models/sub-category.model.js';
 import { Seller } from '../../../models/seller.model.js';
-import { CreateProductDto, UpdateProductDto, AddProductSkusDto, UpdateProductSkuDto } from './dto/partner-product-query.dto.js';
+import { CreateProductDto, UpdateProductDto, AddProductSkusDto, UpdateProductSkuDto } from './dto/partner-product.dto.js';
 
 @Injectable()
 export class PartnerProductsService {

@@ -4,7 +4,7 @@ import { JwtAuthGuard } from '../../../common/guards/jwt-auth.guard.js';
 import { CurrentUser } from '../../../common/decorators/current-user.decorator.js';
 import type { JwtPayload } from '../../../common/types/jwt-payload.type.js';
 import { PartnerProductsService } from './partner-products.service.js';
-import { CreateProductDto, UpdateProductDto, AddProductSkusDto, UpdateProductSkuDto } from './dto/partner-product-query.dto.js';
+import { CreateProductDto, UpdateProductDto, AddProductSkusDto, UpdateProductSkuDto } from './dto/partner-product.dto.js';
 import { RolesGuard } from '../../../common/guards/roles.guard.js';
 import { Roles } from '../../../common/decorators/roles.decorator.js';
 import { UserRole } from '../../../models/user.model.js';
