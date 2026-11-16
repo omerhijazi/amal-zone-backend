@@ -6,6 +6,7 @@ import {
     PrimaryKey,
     AutoIncrement,
     AllowNull,
+    Default,
     ForeignKey,
     BelongsTo,
 } from 'sequelize-typescript';
@@ -13,6 +14,13 @@ import { OrderDetail } from './order-detail.model.js';
 import { Product } from './product.model.js';
 import { ProductSku } from './product-sku.model.js';
 import { Seller } from './seller.model.js';
+
+export enum OrderItemStatus {
+    PENDING = 'pending',
+    SHIPPED = 'shipped',
+    DELIVERED = 'delivered',
+    CANCELLED = 'cancelled',
+}
 
 @Table({
     tableName: 'order_items',
@@ -60,6 +68,10 @@ export class OrderItem extends Model {
 
     @BelongsTo(() => Seller)
     seller?: Seller;
+
+    @Default(OrderItemStatus.PENDING)
+    @Column(DataType.ENUM(...Object.values(OrderItemStatus)))
+    status: OrderItemStatus;
 
     // timestaps: 
     declare createdAt: Date;
