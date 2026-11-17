@@ -2,6 +2,7 @@
 
 # project files
 .env
+.folder-structure
 
 # compiled output
 /dist

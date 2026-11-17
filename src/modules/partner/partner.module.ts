@@ -19,9 +19,11 @@ import { PaymentDetail } from '../../models/payment-detail.model.js';
 
 // controllers
 import { PartnerProductsController } from './products/partner-products.controller.js';
+import { PartnerOrdersController } from './orders/partner-orders.controller.js';
 
 //services
 import { PartnerProductsService } from './products/partner-products.service.js';
+import { PartnerOrdersService } from './orders/partner-orders.service.js';
 
 @Module({
     imports: [
@@ -44,9 +46,12 @@ import { PartnerProductsService } from './products/partner-products.service.js';
     ],
     controllers: [
         PartnerProductsController,
+        PartnerOrdersController
+
     ],
     providers: [
         PartnerProductsService,
+        PartnerOrdersService
     ],
 })
 export class PartnerModule { }
